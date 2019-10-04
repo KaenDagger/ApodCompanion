@@ -23,6 +23,10 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+    val APOD_API_KEY:String by project
+    buildTypes.forEach {
+        it.buildConfigField("String","APOD_API_KEY",APOD_API_KEY)
+    }
 }
 
 dependencies {
@@ -36,7 +40,7 @@ dependencies {
     implementation(Libs.picasso)
     implementation(Libs.materialDesign)
     api(Libs.dagger)
-    annotationProcessor(Libs.daggerCompiler)
+    kapt(Libs.daggerCompiler)
     implementation(Libs.room_runtime)
     kapt(Libs.room_compiler)
     implementation(Libs.coroutines)

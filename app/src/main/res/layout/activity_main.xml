@@ -21,15 +21,34 @@
                 android:textColor="@android:color/white"
                 android:textSize="21sp"
                 android:layout_height="wrap_content"/>
-
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_marginTop="?attr/actionBarSize"
-        android:paddingTop="24dp"
-        android:id="@+id/rvImages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivCurrentApod"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:text="@string/past_photos_label"
+            android:textSize="18sp"
+            android:padding="@dimen/pad_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/margin_normal"
+            android:id="@+id/rvImages"
+            android:padding="@dimen/pad_normal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
