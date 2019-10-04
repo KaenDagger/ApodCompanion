@@ -1,0 +1,1 @@
+/home/kaendagger/AndroidStudioProjects/APODCompanion/buildSrc/build/classes/kotlin/main/Libs.class:/home/kaendagger/AndroidStudioProjects/APODCompanion/buildSrc/build/classes/kotlin/main/ProjectProperties.class:/home/kaendagger/AndroidStudioProjects/APODCompanion/buildSrc/build/classes/kotlin/main/Versions.class
