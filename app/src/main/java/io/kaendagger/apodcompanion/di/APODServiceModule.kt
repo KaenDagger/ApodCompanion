@@ -1,26 +1,20 @@
-package io.kaendagger.apodcompanion.data.remote
+package io.kaendagger.apodcompanion.di
 
-import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
+import io.kaendagger.apodcompanion.data.remote.APODApi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Inject
 
 @Module
-class APODModule {
+class APODServiceModule {
     private val baseUrl = "https://api.nasa.gov"
 
     @Provides
     fun apodService(retrofit: Retrofit): APODApi {
         return retrofit.create(APODApi::class.java)
-    }
-
-    @Provides
-    fun picasso(): Picasso {
-        return Picasso.get()
     }
 
     @Provides

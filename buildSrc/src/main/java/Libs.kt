@@ -8,6 +8,7 @@ private object Versions {
     const val dagger = "2.24"
     const val room = "2.2.0-rc01"
     const val coroutines = "1.3.2"
+    const val lifecycle = "2.2.0-alpha02"
 
 
     const val junit = "4.12"
@@ -36,7 +37,11 @@ object Libs {
 
     const val room_runtime = "androidx.room:room-runtime:${Versions.room}"
     const val room_compiler = "androidx.room:room-compiler:${Versions.room}"
+    const val room_ktx="androidx.room:room-ktx:${Versions.room}"
 
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+
+    const val viewmodel="androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
 
 }

@@ -43,7 +43,10 @@ dependencies {
     kapt(Libs.daggerCompiler)
     implementation(Libs.room_runtime)
     kapt(Libs.room_compiler)
+    implementation(Libs.room_ktx)
     implementation(Libs.coroutines)
+    implementation(Libs.viewmodel)
+    implementation(Libs.lifecycle_extensions)
 
     testImplementation (Libs.junit)
     androidTestImplementation (Libs.androidTestJunit)
