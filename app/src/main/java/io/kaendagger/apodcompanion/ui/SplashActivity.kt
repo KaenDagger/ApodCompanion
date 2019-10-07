@@ -13,10 +13,7 @@ import io.kaendagger.apodcompanion.fadeIn
 import io.kaendagger.apodcompanion.permissions
 import io.kaendagger.apodcompanion.ui.home.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class SplashActivity : AppCompatActivity() ,CoroutineScope{
@@ -30,10 +27,7 @@ class SplashActivity : AppCompatActivity() ,CoroutineScope{
         setContentView(R.layout.activity_splash)
 
         if (checkPermissions(permissions)){
-            launch {
-                delay(600)
-                startActivity(Intent(this@SplashActivity,MainActivity::class.java))
-            }
+            goToMainActivity(750)
         }else{
             Log.i("PUI","not granted")
             launch {
@@ -64,10 +58,16 @@ class SplashActivity : AppCompatActivity() ,CoroutineScope{
                     return
                 }
             }
-            launch {
-                delay(400)
-                startActivity(Intent(this@SplashActivity,MainActivity::class.java))
-            }
+            goToMainActivity(500)
+        }
+    }
+
+    private fun goToMainActivity(delay: Long){
+        launch {
+            delay(delay)
+            startActivity(Intent(this@SplashActivity,MainActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            })
         }
     }
 }
