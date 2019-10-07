@@ -1,5 +1,4 @@
-
-plugins{
+plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
@@ -14,7 +13,7 @@ android {
         minSdkVersion(ProjectProperties.minSdk)
         targetSdkVersion(ProjectProperties.targetSdk)
         versionCode = ProjectProperties.versionCode
-        versionName  = ProjectProperties.versionName
+        versionName = ProjectProperties.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -23,18 +22,18 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    val APOD_API_KEY:String by project
+    val APOD_API_KEY: String by project
     buildTypes.forEach {
-        it.buildConfigField("String","APOD_API_KEY",APOD_API_KEY)
+        it.buildConfigField("String", "APOD_API_KEY", APOD_API_KEY)
     }
 }
 
 dependencies {
-    implementation (fileTree(mapOf("dir" to "libs","include" to listOf("*jar"))))
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*jar"))))
     implementation(Libs.kotlinStdLib)
-    implementation (Libs.appCompat)
-    implementation (Libs.coreKtx)
-    implementation (Libs.constraintLayout)
+    implementation(Libs.appCompat)
+    implementation(Libs.coreKtx)
+    implementation(Libs.constraintLayout)
     implementation(Libs.retrofit)
     implementation(Libs.retrofit_converter)
     implementation(Libs.picasso)
@@ -48,7 +47,7 @@ dependencies {
     implementation(Libs.viewmodel)
     implementation(Libs.lifecycle_extensions)
 
-    testImplementation (Libs.junit)
-    androidTestImplementation (Libs.androidTestJunit)
-    androidTestImplementation (Libs.espresso)
+    testImplementation(Libs.junit)
+    androidTestImplementation(Libs.androidTestJunit)
+    androidTestImplementation(Libs.espresso)
 }

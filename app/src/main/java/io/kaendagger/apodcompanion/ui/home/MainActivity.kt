@@ -1,6 +1,5 @@
-package io.kaendagger.ui.home
+package io.kaendagger.apodcompanion.ui.home
 
-import android.app.Activity
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -11,23 +10,19 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import io.kaendagger.apodcompanion.*
 import io.kaendagger.apodcompanion.data.Result
 import io.kaendagger.apodcompanion.data.model.Apod
-import io.kaendagger.apodcompanion.data.model.ApodOffline
 import io.kaendagger.apodcompanion.di.APODComponent
 import io.kaendagger.apodcompanion.di.APODRoomModule
 import io.kaendagger.apodcompanion.di.ContextModule
 import io.kaendagger.apodcompanion.di.DaggerAPODComponent
+import io.kaendagger.apodcompanion.ui.APODViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import java.io.File
-import java.lang.Exception
-import java.security.Permission
 import java.util.*
-import java.util.jar.Manifest
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import kotlin.properties.Delegates
@@ -48,7 +43,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     lateinit var picasso: Picasso
 
 
-    private lateinit var mavm: MainActivityViewModel
+    private lateinit var mavm: APODViewModel
     private var permStatus by Delegates.observable(false) { _, _, _ ->
         loadPastAPODs()
     }
@@ -73,7 +68,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             .build()
             .apply { injectMainActivity(this@MainActivity) }
 
-        mavm = createViewModel { apodComponent.getMaViewModel() }
+        mavm = createViewModel { apodComponent.getViewModel() }
 
         launch {
             val pastApods = mavm.getPastAPODs().await()
@@ -188,5 +183,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             date != oldDate -> false
             else -> true
         }
+    }
+
+    override fun onDestroy() {
+        coroutineContext.cancelChildren()
+        super.onDestroy()
     }
 }

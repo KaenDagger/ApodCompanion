@@ -1,4 +1,4 @@
-package io.kaendagger.ui.home
+package io.kaendagger.apodcompanion.ui
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -26,7 +26,7 @@ import java.lang.Exception
 import java.lang.NullPointerException
 import javax.inject.Inject
 
-class MainActivityViewModel @Inject
+class APODViewModel @Inject
 constructor(
     private val context: Context,
     private val picasso: Picasso,
@@ -35,14 +35,20 @@ constructor(
 
     private val targetHolder = TargetHolder()
 
+    private var pastApods: List<ApodOffline>? = null
+    private var todayApod: Apod? = null
+
     suspend fun getTodayApod(): Deferred<Result<Apod>> {
         return viewModelScope.async {
+            todayApod?.let { return@async Result.Success(it) }
+
             val response = apodRepository.getTodayAPOD()
             if (response.isSuccessful) {
                 val apod = response.body()
                 if (apod != null) {
                     if (context.checkPermissions(permissions))
                         downloadImage(apod)
+                    todayApod = apod
                     Result.Success(apod)
                 } else {
                     Result.Error(NullPointerException("Received Null"))
@@ -54,7 +60,10 @@ constructor(
     }
 
     suspend fun getPastAPODs(): Deferred<List<ApodOffline>> = viewModelScope.async(Dispatchers.IO) {
-        apodRepository.getPastAPODs()
+        pastApods?.let { return@async it }
+        val list = apodRepository.getPastAPODs()
+        pastApods = list
+        list
     }
 
     private suspend fun downloadImage(apod: Apod) {

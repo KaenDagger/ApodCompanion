@@ -1,11 +1,10 @@
 package io.kaendagger.apodcompanion.di
 
-import com.squareup.picasso.Picasso
 import dagger.Component
-import io.kaendagger.ui.home.ImageAdapter
-import io.kaendagger.ui.home.MainActivityViewModel
-import io.kaendagger.apodcompanion.data.APODRepository
-import io.kaendagger.ui.home.MainActivity
+import io.kaendagger.apodcompanion.ui.home.ImageAdapter
+import io.kaendagger.apodcompanion.ui.APODViewModel
+import io.kaendagger.apodcompanion.ui.home.MainActivity
+import io.kaendagger.apodcompanion.ui.viewer.ViewerActivity
 import javax.inject.Singleton
 
 @Singleton
@@ -16,5 +15,5 @@ interface APODComponent {
 
     fun getImageAdapter(): ImageAdapter
 
-    fun getMaViewModel(): MainActivityViewModel
+    fun getViewModel(): APODViewModel
 }

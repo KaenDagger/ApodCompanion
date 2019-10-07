@@ -6,7 +6,6 @@ import dagger.Provides
 
 @Module
 class PicassoModule {
-
     @Provides
     fun providePicasso() = Picasso.get()
 }

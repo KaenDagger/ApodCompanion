@@ -3,7 +3,7 @@ package io.kaendagger.apodcompanion.di
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
-import io.kaendagger.ui.home.ImageAdapter
+import io.kaendagger.apodcompanion.ui.home.ImageAdapter
 
 @Module(includes = [PicassoModule::class])
 class MainActivityModule{

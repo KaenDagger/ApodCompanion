@@ -6,7 +6,7 @@ import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import io.kaendagger.ui.home.MainActivityViewModel
+import io.kaendagger.apodcompanion.ui.APODViewModel
 import io.kaendagger.apodcompanion.viewModelCommons.ViewModelFactory
 import io.kaendagger.apodcompanion.data.APODRepository
 import io.kaendagger.apodcompanion.viewModelCommons.ViewModelKey
@@ -22,13 +22,13 @@ class ViewModelModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(MainActivityViewModel::class)
+    @ViewModelKey(APODViewModel::class)
     fun maViewModel(
         context:Context,
         picasso: Picasso,
         apodRepository: APODRepository
-    ): MainActivityViewModel {
-        return MainActivityViewModel(
+    ): APODViewModel {
+        return APODViewModel(
             context,
             picasso,
             apodRepository
