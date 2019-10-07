@@ -9,7 +9,7 @@ import io.kaendagger.apodcompanion.data.model.ApodOffline
 
 @Dao
 interface APODDao {
-    @Query("SELECT * FROM apod")
+    @Query("SELECT * FROM apod ORDER BY date DESC")
     suspend fun getPastAPODs():List<ApodOffline>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

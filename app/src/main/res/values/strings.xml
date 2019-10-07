@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">APOD Companion</string>
     <string name="past_photos_label">Past Photos</string>
+    <string name="storage_permission_msg">Allow Storage Persmissions to view past photos offline</string>
+    <string name="allow_storage">Allow Storage</string>
+    <string name="no_past_photos">No Past Photos</string>
 </resources>

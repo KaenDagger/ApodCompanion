@@ -4,50 +4,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root"
     tools:context="io.kaendagger.ui.home.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways">
+
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
-                android:text="@string/app_name"
+                android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="@string/app_name"
                 android:textColor="@android:color/white"
-                android:textSize="21sp"
-                android:layout_height="wrap_content"/>
+                android:textSize="21sp" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/ivCurrentApod"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="200dp">
+
+            <ImageView
+                android:padding="@dimen/pad_normal"
+                android:id="@+id/ivCurrentApod"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
 
         <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/pad_normal"
+            android:layout_marginTop="16dp"
             android:text="@string/past_photos_label"
-            android:textSize="18sp"
-            android:padding="@dimen/pad_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textSize="18sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="@dimen/margin_normal"
-            android:id="@+id/rvImages"
-            android:padding="@dimen/pad_normal"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvImages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:padding="@dimen/pad_normal" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:text="@string/no_past_photos"
+                android:textSize="21sp"
+                android:id="@+id/tvNoPastPhotos"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvPermissionMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    tools:visibility="visible"
+                    android:visibility="gone"
+                    android:text="@string/storage_permission_msg"
+                    android:textSize="21sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPermission"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:text="@string/allow_storage"
+                    tools:visibility="visible"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="2dp" />
+            </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
 
