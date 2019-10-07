@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/pad_normal"
+    android:id="@+id/bottomSheet"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 

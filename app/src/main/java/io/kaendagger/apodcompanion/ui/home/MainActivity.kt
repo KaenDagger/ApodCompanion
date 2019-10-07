@@ -1,5 +1,8 @@
 package io.kaendagger.apodcompanion.ui.home
 
+import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -14,11 +17,9 @@ import com.squareup.picasso.Picasso
 import io.kaendagger.apodcompanion.*
 import io.kaendagger.apodcompanion.data.Result
 import io.kaendagger.apodcompanion.data.model.Apod
-import io.kaendagger.apodcompanion.di.APODComponent
-import io.kaendagger.apodcompanion.di.APODRoomModule
-import io.kaendagger.apodcompanion.di.ContextModule
-import io.kaendagger.apodcompanion.di.DaggerAPODComponent
+import io.kaendagger.apodcompanion.di.*
 import io.kaendagger.apodcompanion.ui.APODViewModel
+import io.kaendagger.apodcompanion.ui.viewer.ViewerActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import java.io.File
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         apodComponent = DaggerAPODComponent.builder()
             .aPODRoomModule(APODRoomModule(this.application))
             .contextModule(ContextModule(this))
+            .mainActivityModule(MainActivityModule(this))
             .build()
             .apply { injectMainActivity(this@MainActivity) }
 
@@ -79,6 +81,17 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 progress.isVisible = false
                 if (pastApods.isNotEmpty())
                     picasso.load(File(pastApods[0].path)).into(ivCurrentApod)
+            }
+            ivCurrentApod.setOnClickListener {
+                val options = ActivityOptions.makeSceneTransitionAnimation(
+                    this@MainActivity,
+                    ivCurrentApod,
+                    "imageTransit"
+                )
+                startActivity(Intent(this@MainActivity,ViewerActivity::class.java)
+                    .apply { putExtra("image_no",0) },
+                    options.toBundle()
+                )
             }
             loadPastAPODs()
         }

@@ -2,10 +2,11 @@ package io.kaendagger.apodcompanion.ui.viewer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.kaendagger.apodcompanion.R
 import io.kaendagger.apodcompanion.createViewModel
+import io.kaendagger.apodcompanion.data.model.ApodOffline
 import io.kaendagger.apodcompanion.di.*
 import kotlinx.android.synthetic.main.activity_viewer.*
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +30,7 @@ class ViewerActivity : AppCompatActivity(),CoroutineScope{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_viewer)
 
-        val itemNo = intent.getIntExtra("image_no",-1)
+
         viewerComponent = DaggerViewerComponent.builder()
             .aPODRoomModule(APODRoomModule(this.application))
             .contextModule(ContextModule(this))
@@ -39,40 +40,62 @@ class ViewerActivity : AppCompatActivity(),CoroutineScope{
 
         val  viewModel =  createViewModel { viewerComponent.getViewModel() }
 
+        setUpToolBar()
+
         launch {
             val pastApods = viewModel.getPastAPODs().await()
-
-            var currApod = pastApods[itemNo]
-
-            tvTitle.text = currApod.title
-            tvTitle.setOnClickListener {
-                ImageDetailsFrag.newInstance(currApod).show(supportFragmentManager,"IDFrag")
-            }
-
             imagePagerAdapter.setApods(pastApods)
-            viewPager.apply {
-                adapter = imagePagerAdapter
-                if (itemNo != -1) {
-                    currentItem = itemNo
-                }
-                addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
-                    override fun onPageScrollStateChanged(state: Int) {
+            setImageViewer(pastApods)
+        }
+    }
 
-                    }
+    private fun setUpToolBar(){
+        setSupportActionBar(toolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = "APOD Viewer"
+            titleColor = getColor(android.R.color.white)
+        }
+    }
 
-                    override fun onPageScrolled(
-                        position: Int,
-                        positionOffset: Float,
-                        positionOffsetPixels: Int
-                    ) {
-                    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home){
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
-                    override fun onPageSelected(position: Int) {
-                        tvTitle.text = pastApods[position].title
-                        currApod = pastApods[position]
-                    }
-                })
+    private fun setImageViewer(pastApods:List<ApodOffline>){
+        val itemNo = intent.getIntExtra("image_no",-1)
+        var currApod = pastApods[itemNo]
+
+        tvTitle.text = currApod.title
+        tvTitle.setOnClickListener {
+            ImageDetailsFrag.newInstance(currApod).show(supportFragmentManager,"IDFrag")
+        }
+
+        viewPager.apply {
+            adapter = imagePagerAdapter
+            if (itemNo != -1) {
+                currentItem = itemNo
             }
+            addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+                override fun onPageScrollStateChanged(state: Int) {
+
+                }
+
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                }
+
+                override fun onPageSelected(position: Int) {
+                    tvTitle.text = pastApods[position].title
+                    currApod = pastApods[position]
+                }
+            })
         }
     }
 

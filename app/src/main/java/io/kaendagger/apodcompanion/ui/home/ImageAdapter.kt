@@ -1,9 +1,12 @@
 package io.kaendagger.apodcompanion.ui.home
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import io.kaendagger.apodcompanion.R
@@ -12,7 +15,7 @@ import io.kaendagger.apodcompanion.ui.viewer.ViewerActivity
 import kotlinx.android.synthetic.main.layout_image.view.*
 import java.io.File
 
-class ImageAdapter(private val picasso: Picasso) :RecyclerView.Adapter<ImageAdapter.ViewHolder>(){
+class ImageAdapter(private val picasso: Picasso, private val parentAcitvity:AppCompatActivity) :RecyclerView.Adapter<ImageAdapter.ViewHolder>(){
 
     private var list: List<ApodOffline> = listOf()
 
@@ -38,9 +41,14 @@ class ImageAdapter(private val picasso: Picasso) :RecyclerView.Adapter<ImageAdap
                 tvTitle.text = apodOffline.date
                 picasso.load(File(apodOffline.path)).into(ivImage)
                 ivImage.setOnClickListener {
+                    val options =ActivityOptions.makeSceneTransitionAnimation(
+                        parentAcitvity,
+                        ivImage,
+                        "imageTransit"
+                    )
                     context.startActivity(Intent(context,ViewerActivity::class.java).apply {
                         putExtra("image_no",position)
-                    })
+                    },options.toBundle())
                 }
             }
         }
