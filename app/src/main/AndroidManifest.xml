@@ -14,13 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="io.kaendagger.apodcompanion.ui.viewer.ViewerActivity"></activity>
-        <activity android:name="io.kaendagger.apodcompanion.ui.home.MainActivity">
+        <activity android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.viewer.ViewerActivity" />
+        <activity android:name=".ui.home.MainActivity">
         </activity>
     </application>
 

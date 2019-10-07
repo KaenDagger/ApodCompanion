@@ -38,6 +38,8 @@ constructor(
     private var pastApods: List<ApodOffline>? = null
     private var todayApod: Apod? = null
 
+    var padeIdx = -1
+
     suspend fun getTodayApod(): Deferred<Result<Apod>> {
         return viewModelScope.async {
             todayApod?.let { return@async Result.Success(it) }

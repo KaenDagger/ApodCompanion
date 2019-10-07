@@ -1,6 +1,5 @@
 package io.kaendagger.apodcompanion.ui.home
 
-import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.content.SharedPreferences
@@ -33,9 +32,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    lateinit var apodComponent: APODComponent
-
-    private val PERM_REQUEST = 1
+    lateinit var mainActivityComponent: MainActivityComponent
 
     @Inject
     lateinit var sharedPrefs: SharedPreferences
@@ -43,34 +40,20 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     @Inject
     lateinit var picasso: Picasso
 
-
     private lateinit var mavm: APODViewModel
-    private var permStatus by Delegates.observable(false) { _, _, _ ->
-        loadPastAPODs()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (!checkPermissions(permissions)
-        ) {
-            ActivityCompat.requestPermissions(this, permissions, PERM_REQUEST)
-        } else {
-            permStatus = true
-        }
 
-        btnPermission.setOnClickListener {
-            ActivityCompat.requestPermissions(this, permissions, PERM_REQUEST)
-        }
-
-        apodComponent = DaggerAPODComponent.builder()
+        mainActivityComponent = DaggerMainActivityComponent.builder()
             .aPODRoomModule(APODRoomModule(this.application))
             .contextModule(ContextModule(this))
             .mainActivityModule(MainActivityModule(this))
             .build()
             .apply { injectMainActivity(this@MainActivity) }
 
-        mavm = createViewModel { apodComponent.getViewModel() }
+        mavm = createViewModel { mainActivityComponent.getViewModel() }
 
         launch {
             val pastApods = mavm.getPastAPODs().await()
@@ -88,33 +71,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     ivCurrentApod,
                     "imageTransit"
                 )
-                startActivity(Intent(this@MainActivity,ViewerActivity::class.java)
-                    .apply { putExtra("image_no",0) },
+                startActivity(
+                    Intent(this@MainActivity, ViewerActivity::class.java)
+                        .apply { putExtra("image_no", 0) },
                     options.toBundle()
                 )
             }
             loadPastAPODs()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERM_REQUEST) {
-            for (idx in permissions.indices) {
-                if (grantResults[idx] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(
-                        this,
-                        "Please allow ${permissions[idx]} permission",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    return
-                }
-            }
-            permStatus = true
         }
     }
 
@@ -144,29 +107,21 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private fun loadPastAPODs() {
         launch {
-            if (permStatus) {
-                tvPermissionMessage.isVisible = false
-                btnPermission.isVisible = false
-                val pastApods = mavm.getPastAPODs().await()
-                if (pastApods.isEmpty()) {
-                    tvNoPastPhotos.isVisible = true
-                    rvImages.isVisible = false
-                } else {
-                    tvNoPastPhotos.isVisible = false
-                    val imageAdapter = apodComponent.getImageAdapter().apply {
-                        setItems(pastApods)
-                    }
-                    rvImages.apply {
-                        isVisible = true
-                        adapter = imageAdapter
-                        layoutManager = GridLayoutManager(this@MainActivity, 3)
-                    }
-                }
+            val pastApods = mavm.getPastAPODs().await()
+            if (pastApods.isEmpty()) {
+                tvNoPastPhotos.isVisible = true
+                rvImages.isVisible = false
             } else {
                 tvNoPastPhotos.isVisible = false
-                rvImages.isVisible = false
-                tvPermissionMessage.isVisible = true
-                btnPermission.isVisible = true
+                val imageAdapter = mainActivityComponent.getImageAdapter().apply {
+                    setItems(pastApods)
+                }
+                rvImages.apply {
+                    isNestedScrollingEnabled = false
+                    isVisible = true
+                    adapter = imageAdapter
+                    layoutManager = GridLayoutManager(this@MainActivity, 3)
+                }
             }
         }
     }

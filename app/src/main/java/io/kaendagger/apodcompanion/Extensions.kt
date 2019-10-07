@@ -1,10 +1,16 @@
 package io.kaendagger.apodcompanion
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
+import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -41,4 +47,29 @@ fun Context.checkPermissions(permissions: Array<String>): Boolean {
             return false
     }
     return true
+}
+
+fun View.fadeIn(){
+    this.alpha = 0.1f
+    this.animate()
+        .alpha(1.0f)
+        .setDuration(1000)
+        .setInterpolator(LinearInterpolator())
+        .setListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(p0: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(p0: Animator?) {
+                this@fadeIn.isVisible = true
+            }
+
+            override fun onAnimationCancel(p0: Animator?) {
+            }
+
+            override fun onAnimationStart(p0: Animator?) {
+            }
+
+        })
+        .start()
 }

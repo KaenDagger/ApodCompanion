@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [MainActivityModule::class,ViewModelModule::class])
-interface APODComponent {
+interface MainActivityComponent {
 
     fun injectMainActivity(mainActivity: MainActivity)
 

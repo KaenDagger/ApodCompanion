@@ -8,6 +8,7 @@ import io.kaendagger.apodcompanion.R
 import io.kaendagger.apodcompanion.createViewModel
 import io.kaendagger.apodcompanion.data.model.ApodOffline
 import io.kaendagger.apodcompanion.di.*
+import io.kaendagger.apodcompanion.ui.APODViewModel
 import kotlinx.android.synthetic.main.activity_viewer.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,8 @@ class ViewerActivity : AppCompatActivity(),CoroutineScope{
 
     lateinit var viewerComponent: ViewerComponent
 
+    lateinit var viewModel:APODViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_viewer)
@@ -38,7 +41,7 @@ class ViewerActivity : AppCompatActivity(),CoroutineScope{
             .build()
             .apply {injectViewerActivity(this@ViewerActivity)}
 
-        val  viewModel =  createViewModel { viewerComponent.getViewModel() }
+        viewModel =  createViewModel { viewerComponent.getViewModel() }
 
         setUpToolBar()
 
@@ -69,15 +72,20 @@ class ViewerActivity : AppCompatActivity(),CoroutineScope{
         val itemNo = intent.getIntExtra("image_no",-1)
         var currApod = pastApods[itemNo]
 
+        if (viewModel.padeIdx == -1){
+            viewModel.padeIdx = itemNo
+        }
+
         tvTitle.text = currApod.title
         tvTitle.setOnClickListener {
             ImageDetailsFrag.newInstance(currApod).show(supportFragmentManager,"IDFrag")
         }
 
         viewPager.apply {
+            offscreenPageLimit = 2
             adapter = imagePagerAdapter
             if (itemNo != -1) {
-                currentItem = itemNo
+                currentItem = viewModel.padeIdx
             }
             addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
                 override fun onPageScrollStateChanged(state: Int) {
@@ -94,6 +102,7 @@ class ViewerActivity : AppCompatActivity(),CoroutineScope{
                 override fun onPageSelected(position: Int) {
                     tvTitle.text = pastApods[position].title
                     currApod = pastApods[position]
+                    viewModel.padeIdx = position
                 }
             })
         }
