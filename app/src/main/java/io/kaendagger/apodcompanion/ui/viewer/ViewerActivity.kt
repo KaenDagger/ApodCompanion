@@ -70,11 +70,11 @@ class ViewerActivity : AppCompatActivity(),CoroutineScope{
 
     private fun setImageViewer(pastApods:List<ApodOffline>){
         val itemNo = intent.getIntExtra("image_no",-1)
-        var currApod = pastApods[itemNo]
 
         if (viewModel.padeIdx == -1){
             viewModel.padeIdx = itemNo
         }
+        var currApod = pastApods[viewModel.padeIdx]
 
         tvTitle.text = currApod.title
         tvTitle.setOnClickListener {
