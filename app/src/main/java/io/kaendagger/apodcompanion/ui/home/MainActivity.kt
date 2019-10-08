@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             if (!isItToday() || pastApods.isEmpty()) {
                 loadTodayAPOD()
             } else {
-                Log.i("PUI", "its Today")
                 progress.isVisible = false
                 if (pastApods.isNotEmpty())
                     picasso.load(File(pastApods[0].path)).into(ivCurrentApod)
@@ -92,12 +91,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                         sharedPrefs.edit().putLong("time", System.currentTimeMillis()).apply()
                     }
                     is Result.Error -> {
-                        Log.e("PUI", "Error fetching")
                         ivCurrentApod.setImageDrawable(getDrawable(R.drawable.ic_error))
                     }
                 }
             } else {
-                Log.i("PUI", "offline")
                 ivCurrentApod.setImageDrawable(getDrawable(R.drawable.ic_offline))
                 Snackbar.make(root, "You are offline", Snackbar.LENGTH_LONG).show()
             }

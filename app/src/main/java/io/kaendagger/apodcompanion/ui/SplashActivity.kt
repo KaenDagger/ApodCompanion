@@ -29,7 +29,6 @@ class SplashActivity : AppCompatActivity() ,CoroutineScope{
         if (checkPermissions(permissions)){
             goToMainActivity(750)
         }else{
-            Log.i("PUI","not granted")
             launch {
                 delay(1000)
                 permContainer.fadeIn()

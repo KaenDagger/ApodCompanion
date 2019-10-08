@@ -33,6 +33,7 @@ constructor(
     private val apodRepository: APODRepository
 ) : ViewModel() {
 
+    private val TAG = "APODViewModel"
     private val targetHolder = TargetHolder()
 
     private var pastApods: List<ApodOffline>? = null
@@ -82,14 +83,13 @@ constructor(
             }
 
             override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-                Log.i("PUI", "bitmap failed ${e?.message}")
+                Log.e(TAG, "bitmap failed ${e?.message}")
             }
 
             override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
                 // file download to disk
                 viewModelScope.launch {
                     val file = File("$directory/${apod.date}.jpeg")
-                    Log.i("PUI", "directory $directory/${apod.date}")
                     file.createNewFile()
                     val oStream = FileOutputStream(file)
                     bitmap?.compress(Bitmap.CompressFormat.JPEG, 80, oStream)
@@ -109,7 +109,7 @@ constructor(
             }
         }
         targetHolder.holdTarget(target)
-        Log.i("PUI", "download image $directory, apod ${apod.date}")
+        Log.i(TAG, "downloaded image $directory, apod ${apod.date}")
         picasso.load(apod.url).into(targetHolder.target)
     }
 
