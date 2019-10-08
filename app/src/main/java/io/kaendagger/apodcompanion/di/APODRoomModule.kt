@@ -12,15 +12,15 @@ import io.kaendagger.apodcompanion.data.database.APODDatabase
 import io.kaendagger.apodcompanion.data.remote.APODApi
 
 @Module(includes = [APODServiceModule::class,ContextModule::class])
-class APODRoomModule (application: Application){
+open class APODRoomModule (application: Application){
 
     private val apodDB = Room.databaseBuilder(application,APODDatabase::class.java,"apod-db").build()
 
     @Provides
-    fun provideApodDatabase() = apodDB
+    open fun provideApodDatabase() = apodDB
 
     @Provides
-    fun providesApodDao() = apodDB.apodDao()
+    open fun providesApodDao() = apodDB.apodDao()
 
     @Provides
     fun providesApodRepository(

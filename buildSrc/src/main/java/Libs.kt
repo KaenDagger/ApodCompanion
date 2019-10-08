@@ -14,6 +14,7 @@ private object Versions {
     const val junit = "4.12"
     const val androidJunit = "1.1.0"
     const val espresso = "3.2.0"
+    const val mockito = "1.10.19"
 }
 
 object Libs {
@@ -43,5 +44,8 @@ object Libs {
 
     const val viewmodel="androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+
+    const val mockito = "org.mockito:mockito-core:${Versions.mockito}"
+    const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
 
 }

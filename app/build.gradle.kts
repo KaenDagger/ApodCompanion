@@ -38,7 +38,7 @@ dependencies {
     implementation(Libs.retrofit_converter)
     implementation(Libs.picasso)
     implementation(Libs.materialDesign)
-    api(Libs.dagger)
+    implementation(Libs.dagger)
     kapt(Libs.daggerCompiler)
     implementation(Libs.room_runtime)
     kapt(Libs.room_compiler)
@@ -48,6 +48,7 @@ dependencies {
     implementation(Libs.lifecycle_extensions)
 
     testImplementation(Libs.junit)
+    androidTestImplementation(Libs.coroutines_test)
     androidTestImplementation(Libs.androidTestJunit)
     androidTestImplementation(Libs.espresso)
 }
