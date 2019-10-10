@@ -20,7 +20,7 @@ import java.lang.Exception
 import java.lang.NullPointerException
 import javax.inject.Inject
 
-class APODRepository @Inject constructor(
+open class APODRepository @Inject constructor(
     val apodService: APODApi,
     val apodDao: APODDao,
     val picasso: Picasso,
@@ -28,7 +28,6 @@ class APODRepository @Inject constructor(
 ) {
 
     suspend fun getTodayAPOD(): Response<Apod> {
-        Log.i("PUI","repo today apod")
         return apodService.getAPOD()
     }
 
