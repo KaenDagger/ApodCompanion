@@ -2,6 +2,8 @@
 
 A companion android app built with [Nasa APOD Api](https://api.nasa.gov/) to view the Astronomy Picture of the Day.
 
+Apk could be found in [apk folder](/apk)
+
 ## working Demo
 <img src="https://user-images.githubusercontent.com/24780524/66425636-c7eaea00-ea2d-11e9-974a-8cc01e3411ac.gif" width=360>
 
